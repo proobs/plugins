@@ -38,13 +38,13 @@ char ItemsList[][] = //VALID ITEM NAMES HERE, HEAVYASSAULTSUIT ONLY WORKS WHEN I
 public void OnPluginStart()
 {
 	//all super+ commands
-	RegAdminCmd("sm_team",				Command_Team,			ADMFLAG_CHANGEMAP,		"Set the targets team");
-	RegAdminCmd("sm_give",				Command_Give,			ADMFLAG_CHANGEMAP,		"Give something for the targets");
-	RegAdminCmd("sm_disarm",			Command_Disarm,			ADMFLAG_CHANGEMAP,		"Disarming the targets");
-	RegAdminCmd("sm_bury",				Command_Bury,           ADMFLAG_CHANGEMAP,      "Burying the targets");
-	RegAdminCmd("sm_unbury",			Command_UnBury,         ADMFLAG_CHANGEMAP,     "Burying the targets");
-	RegAdminCmd("sm_hp",			    Command_Health,		    ADMFLAG_CHANGEMAP,		"Set the health for the targets");
-	RegAdminCmd("sm_health",		    Command_Health,			ADMFLAG_CHANGEMAP,		"Set the health for the targets");
+	RegAdminCmd("sm_team", Command_Team, ADMFLAG_CHANGEMAP, "Set the targets team");
+	RegAdminCmd("sm_give", Command_Give, ADMFLAG_CHANGEMAP, "Give something for the targets");
+	RegAdminCmd("sm_disarm", Command_Disarm, ADMFLAG_CHANGEMAP, "Disarming the targets");
+	RegAdminCmd("sm_bury", Command_Bury, ADMFLAG_CHANGEMAP, "Burying the targets");
+	RegAdminCmd("sm_unbury", Command_UnBury, ADMFLAG_CHANGEMAP, "Burying the targets");
+	RegAdminCmd("sm_hp", Command_Health, ADMFLAG_CHANGEMAP, "Set the health for the targets");
+	RegAdminCmd("sm_health", Command_Health, ADMFLAG_CHANGEMAP, "Set the health for the targets");
 }
 
 public void OnMapStart()
