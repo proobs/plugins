@@ -18,7 +18,6 @@ public Plugin myinfo =
 
 ConVar sv_airaccelerate = null; 
 
-
 public void OnPluginStart()
 {
 	sv_airaccelerate = FindConVar("sv_airaccelerate");
