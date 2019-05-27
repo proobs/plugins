@@ -24,7 +24,7 @@ public void OnPluginStart()
 	sv_airaccelerate = FindConVar("sv_airaccelerate");
 	sv_airaccelerate.Flags &= ~(FCVAR_NOTIFY | FCVAR_REPLICATED);
 }
-public void PreThinkPost(int client)
+public void OnGameFrame()
 {
 	char mapName[20];
 	GetCurrentMap(mapName, sizeof(mapName));
@@ -33,29 +33,3 @@ public void PreThinkPost(int client)
 		sv_airaccelerate.IntValue = 150;
 	}
 }
-/*public void OnRoundStart(Event event, const char[] name, bool dontBroadcast)
-{
-	char mapName[20];
-	GetCurrentMap(mapName, sizeof(mapName));
-	if(StrEqual(mapName, clouds))
-	{
-		if(sv_airaccelerate != null)
-		{
-			sv_airaccelerate.IntValue = 150;
-		}
-	}
-}*/
-
-/*public Action yeah(Handle timer)
-{
-	char mapName[20];
-	GetCurrentMap(mapName, sizeof(mapName));
-	if(StrEqual(mapName, clouds))
-	{
-		PrintToChatAll("nigger");
-		PrintToChatAll("nigger");
-		PrintToChatAll("nigger");
-		PrintToChatAll("nigger");
-	}
-	PrintToChatAll("test");
-}*/ 
