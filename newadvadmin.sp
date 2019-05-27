@@ -15,7 +15,7 @@ public Plugin myinfo =
 };
 
 #define SOUND_BURY "physics/concrete/boulder_impact_hard4.wav" //Bury sound, leave blank to disable
-#define CMD_PREFIX "/x0b➤➤➤"
+#define CMD_PREFIX " /x0b➤➤➤"
 #define DEBUG
 #define ROOT_PREFIX  "\x01[\x02ROOT\x01] \x02-\x01 "
 #define ADMIN_PREFIX "\x01[\x0bADMIN\x01] \x0b-\x01 "
