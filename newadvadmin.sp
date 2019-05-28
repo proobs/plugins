@@ -15,8 +15,10 @@ public Plugin myinfo =
 };
 
 #define SOUND_BURY "physics/concrete/boulder_impact_hard4.wav" //Bury sound, leave blank to disable
-#define CMD_PREFIX " /x0b➤➤➤"
+#define CMD_PREFIX " \x0C➤➤➤"
 #define DEBUG
+#define ROOT_PREFIX  "\x01[\x02ROOT\x01] \x02-\x01 "
+#define ADMIN_PREFIX "\x01[\x0bADMIN\x01] \x0b-\x01 "
 
 char WeaponsList[][] = //VALID WEAPON NAMES HERE
 {
@@ -38,13 +40,13 @@ char ItemsList[][] = //VALID ITEM NAMES HERE, HEAVYASSAULTSUIT ONLY WORKS WHEN I
 public void OnPluginStart()
 {
 	//all super+ commands
-	RegAdminCmd("sm_team", Command_Team, ADMFLAG_CHANGEMAP, "Set the targets team");
-	RegAdminCmd("sm_give", Command_Give, ADMFLAG_CHANGEMAP, "Give something for the targets");
-	RegAdminCmd("sm_disarm", Command_Disarm, ADMFLAG_CHANGEMAP, "Disarming the targets");
-	RegAdminCmd("sm_bury", Command_Bury, ADMFLAG_CHANGEMAP, "Burying the targets");
-	RegAdminCmd("sm_unbury", Command_UnBury, ADMFLAG_CHANGEMAP, "Burying the targets");
-	RegAdminCmd("sm_hp", Command_Health, ADMFLAG_CHANGEMAP, "Set the health for the targets");
-	RegAdminCmd("sm_health", Command_Health, ADMFLAG_CHANGEMAP, "Set the health for the targets");
+	RegAdminCmd("sm_team",				Command_Team,			ADMFLAG_CHANGEMAP,		"Set the targets team");
+	RegAdminCmd("sm_give",				Command_Give,			ADMFLAG_CHANGEMAP,		"Give something for the targets");
+	RegAdminCmd("sm_disarm",			Command_Disarm,			ADMFLAG_CHANGEMAP,		"Disarming the targets");
+	RegAdminCmd("sm_bury",				Command_Bury,           ADMFLAG_CHANGEMAP,      "Burying the targets");
+	RegAdminCmd("sm_unbury",			Command_UnBury,         ADMFLAG_CHANGEMAP,     "Burying the targets");
+	RegAdminCmd("sm_hp",			    Command_Health,		    ADMFLAG_CHANGEMAP,		"Set the health for the targets");
+	RegAdminCmd("sm_health",		    Command_Health,			ADMFLAG_CHANGEMAP,		"Set the health for the targets");
 }
 
 public void OnMapStart()
@@ -173,30 +175,26 @@ public Action Command_Give(int client, int args)
 	{
 		Format(buffer, sizeof(buffer), "knife");
 	}
+	
 	int type = ItemType(buffer);
 	if(!type)
 	{
-		ReplyToCommand(client, "%s Invalid weapon.. Please try again.." CMD_PREFIX);
+		ReplyToCommand(client, "%s Invalid weapon, please try again.", CMD_PREFIX);
 		return Plugin_Handled;
 	}
 	
+	/*for(int i = 0; i < target_count; i++)
+	{
+		GivePlayerWeapon(target_list[i], buffer, type);
+	}*/
 	for(int i = 0; i < target_count; i++)
 	{
-		if(StrEqual(buffer, "knife", false) && !GetConVarBool(FindConVar("mp_drop_knife_enable")))
-		{
-			int knife = -1;
-			while((knife = GetPlayerWeaponSlot(target_list[i], 2)) != -1)
-			{
-				if(IsValidEntity(knife))
-				{
-					RemovePlayerItem(target_list[i], knife);
-				}
-			}
-		}
+		DisarmPlayer(target_list[i]);
 		GivePlayerWeapon(target_list[i], buffer, type);
 	}
+	
 	FormatActivitySource(client, client, nameBuf, sizeof(nameBuf));
-	PrintToChatAll("%s %s has given %s item %d", CMD_PREFIX, nameBuf, target_name, buffer);
+	PrintToChatAll("%s %s has given %s an %s", CMD_PREFIX, nameBuf, target_name, buffer);
 	return Plugin_Handled;
 }
 public Action Command_Disarm(int client, int args)
@@ -366,14 +364,13 @@ public Action Command_Health(int client, int args)
 }
 
 //stocks
-stock void GivePlayerWeapon(int client, char weapon, int type)
+stock void GivePlayerWeapon(int client, char[] weapon, int type)
 {
 	char buffer[64];
 	if(type == 1)
 	{
 		Format(buffer, sizeof(buffer), "weapon_%s", weapon);
 	}
-	else
 	{
 		Format(buffer, sizeof(buffer), "item_%s", weapon);
 	}
@@ -388,9 +385,7 @@ stock void DisarmPlayer(int client)
 		while((weapon = GetPlayerWeaponSlot(client, i)) != -1)
 		{
 			if(IsValidEntity(weapon))
-			{
 				RemovePlayerItem(client, weapon);
-			}
 		}
 	}
 	SetEntProp(client, Prop_Send, "m_bHasDefuser", 0);
@@ -398,16 +393,16 @@ stock void DisarmPlayer(int client)
 	SetEntProp(client, Prop_Send, "m_ArmorValue", 0);
 	SetEntProp(client, Prop_Send, "m_bHasHelmet", 0);
 }
-stock void ItemType(char buffer)
+stock void ItemType(char[] itemname)
 {
-	for(new i = 0; i < sizeof(WeaponsList); i++)
+	for(int i = 0; i < sizeof(WeaponsList); i++)
 	{
 		if(StrEqual(itemname, WeaponsList[i], false))
 		{
 			return 1;
 		}
 	}
-	for(new i = 0; i < sizeof(ItemsList); i++)
+	for(int i = 0; i < sizeof(ItemsList); i++)
 	{
 		if(StrEqual(itemname, ItemsList[i], false))
 		{
