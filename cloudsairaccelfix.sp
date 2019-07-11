@@ -21,7 +21,7 @@ public void OnPluginStart()
 {
 	sv_airaccelerate = FindConVar("sv_airaccelerate");
 	sv_airaccelerate.Flags &= ~(FCVAR_NOTIFY | FCVAR_REPLICATED);
-	HookConVarChange(sv_airaccelerate, OnCvarChange);
+	sv_airaccelerate.AddChangeHook(OnCvarChange);
 }
 public void OnCvarChange(ConVar convar, char[] oldVal, char[] newVal) 
 {
