@@ -30,9 +30,9 @@ public void OnPluginStart()
 	{
 		SetFailState("This plugin is for CSGO/CSS only.");	
 	}
-	RegAdminCmd("sm_forcerestart", forcecrash, ADMFLAG_ROOT);
+	RegAdminCmd("sm_forcerestart", CMD_Restart, ADMFLAG_ROOT);
 }
-public Action forcecrash(int client, int args)
+public Action CMD_Restart(int client, int args)
 {
 	ServerCommand("_restart");
 }
