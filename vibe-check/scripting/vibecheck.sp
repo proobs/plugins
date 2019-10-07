@@ -90,7 +90,7 @@ public Action CMD_VibeCheck(int client, int args) {
 }
 
 void CheckVibes(int client, bool OtherClient=false) {
-	if(!g_bWasCmdUsed[client]) {
+	if(g_bWasCmdUsed[client]) {
 		if(!OtherClient) {
 			ReplyToCommand(client, "[SM] Bruh, you already feeling %s, you cant vibe check again o-o", g_cCurrentVibe[client]);
 			return;
